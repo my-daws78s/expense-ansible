@@ -38,8 +38,10 @@
     community.mysql.mysql_info:
       login_user: root
       login_password: "{{mysql_root_password}}"
+      filter: version
     ignore_errors:  yes
     register: mysql_output
+    
   - name: print mysql_output
     ansible.builtin.debug:
       msg:  "MySQL Register Output is: {{mysql_output}}"
