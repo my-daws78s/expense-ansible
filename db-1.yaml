@@ -59,3 +59,6 @@
   - name: setup root password now
     ansible.builtin.command:  "mysql_secure_installation --set-root-pass {{mysql_root_password}}"
     when: mysql_output.failed is true # don't give {{ }} in when condition
+
+#sudo yum remove mysql mysql-server
+# I am facing issue instead of skipping at line 
