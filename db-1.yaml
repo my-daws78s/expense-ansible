@@ -38,6 +38,11 @@
     community.mysql.mysql_info:
       login_user: root
       login_password: "{{mysql_root_password}}"
+    ignore_errors:  yes
+    register: mysql_output
+  - name: print mysql_output
+    ansible.builtin.debug:
+      msg:  "MySQL Register Output is: {{mysql_output}}"
   
 # TASK [check if mysql root password is already setup or not] **************************************************************************
 # fatal: [localhost]: FAILED! => {"changed": false, "msg": "A MySQL module is required: for Python 2.7 either PyMySQL, or MySQL-python, or for Python 3.X mysqlclient or PyMySQL. Consider setting ansible_python_interpreter to use the intended Python version."}
@@ -47,3 +52,6 @@
 # TASK [check if mysql root password is already setup or not] **************************************************************************
 # fatal: [localhost]: FAILED! => {"changed": false, "msg": "unable to connect to database using pymysql 1.1.0, check login_user and login_password are correct or /root/.my.cnf has the credentials. Exception message: (1045, \"Access denied for user 'root'@'localhost' (using password: YES)\")"}
 
+  # - name: setup root password now
+  #   ansible.builtin.command:  mysql_secure_installation --set-root-pass {{mysql_root_password}}
+  #   when: mysql_output
