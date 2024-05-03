@@ -41,7 +41,7 @@
       filter: version
     ignore_errors:  yes
     register: mysql_output
-    
+
   - name: print mysql_output
     ansible.builtin.debug:
       msg:  "MySQL Register Output is: {{mysql_output}}"
@@ -55,5 +55,5 @@
 # fatal: [localhost]: FAILED! => {"changed": false, "msg": "unable to connect to database using pymysql 1.1.0, check login_user and login_password are correct or /root/.my.cnf has the credentials. Exception message: (1045, \"Access denied for user 'root'@'localhost' (using password: YES)\")"}
 
   - name: setup root password now
-    ansible.builtin.command:  mysql_secure_installation --set-root-pass {{mysql_root_password}}
+    ansible.builtin.command:  "mysql_secure_installation --set-root-pass {{mysql_root_password}}"
     when: mysql_output.failed is true # don't give {{ }} in when condition
