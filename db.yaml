@@ -9,11 +9,11 @@
 - name: Configuring DB Server
   hosts: localhost
   become: yes
-  vars_prompt:
+  vars_prompt:  # This has to stay at PLAY level only, inside TASK level did not work.
   - name: mysql_root_password
     prompt: Enter MySql Password of your choice
     private: no
-    
+
   tasks:
   - name: Install MySQL Server 8.0.x
     ansible.builtin.dnf:
@@ -34,3 +34,9 @@
       login_user: root
       login_password: "{{mysql_root_password}}"
   
+# TASK [check if mysql root password is already setup or not] **************************************************************************
+# fatal: [localhost]: FAILED! => {"changed": false, "msg": "A MySQL module is required: for Python 2.7 either PyMySQL, or MySQL-python, or for Python 3.X mysqlclient or PyMySQL. Consider setting ansible_python_interpreter to use the intended Python version."}
+
+- name: Install Python dependencies PyMySQL
+  ansible.builtin.pip:
+    name: PyMySQL
