@@ -9,6 +9,11 @@
 - name: Configuring DB Server
   hosts: localhost
   become: yes
+  vars_prompt:
+  - name: mysql_root_password
+    prompt: Enter MySql Password of your choice
+    private: no
+    
   tasks:
   - name: Install MySQL Server 8.0.x
     ansible.builtin.dnf:
@@ -23,11 +28,6 @@
 # sudo mysql
 # show databases; -- both works
 # systemctl status mysqld -- works
-
-  vars_prompt:
-  - name: mysql_root_password
-    prompt: Enter MySql Password of your choice
-    private: no
   
   - name: check if mysql root password is already setup or not
     community.mysql.mysql_info:
