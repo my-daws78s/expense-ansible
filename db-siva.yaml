@@ -1,5 +1,5 @@
 - name: configure DB server
-  hosts: localhost
+  hosts: 54.226.176.22
   become: yes
   #vars:
     #login_host: db.daws78s.online
