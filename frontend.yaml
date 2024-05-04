@@ -16,7 +16,11 @@
     ansible.builtin.dnf:
       name: nginx
       state: latest
-      enabled:  yes
+  - name: Start and Enable nginx
+    ansible.builtin.service:
+      name: nginx
+      state: started      
+      enabled: yes
   - name: Delete directory html
     ansible.builtin.file:
       path: /usr/share/nginx/html
