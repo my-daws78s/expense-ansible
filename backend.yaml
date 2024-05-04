@@ -77,3 +77,52 @@
       name: backend
       state: started
       enabled: yes
+
+
+# Output:
+
+
+# [ ec2-user@ip-172-31-26-59 ~/expense-ansible ]$ ansible-playbook -i inventory.ini -e ansible_user=ec2-user -e ansible_password=DevOps321 backend.yaml
+# Enter MySql Password: ExpenseApp@1
+
+# PLAY [Configuring Backend Server] ****************************************************************************************************
+
+# TASK [Gathering Facts] ***************************************************************************************************************
+# ok: [backend.mydevops-learning.cloud]
+
+# TASK [Disable nodejs] ****************************************************************************************************************
+# changed: [backend.mydevops-learning.cloud]
+
+# TASK [Enable nodejs] *****************************************************************************************************************
+# changed: [backend.mydevops-learning.cloud]
+
+# TASK [Install nodejs] ****************************************************************************************************************
+# ok: [backend.mydevops-learning.cloud] => (item=nodejs)
+# ok: [backend.mydevops-learning.cloud] => (item=mysql)
+
+# TASK [Create user expense] ***********************************************************************************************************
+# ok: [backend.mydevops-learning.cloud]
+
+# TASK [Create new directory app] ******************************************************************************************************
+# ok: [backend.mydevops-learning.cloud]
+
+# TASK [Download and Unzip] ************************************************************************************************************
+# ok: [backend.mydevops-learning.cloud]
+
+# TASK [Install nodejs dependencies] ***************************************************************************************************
+# changed: [backend.mydevops-learning.cloud]
+
+# TASK [Copy backend.service] **********************************************************************************************************
+# changed: [backend.mydevops-learning.cloud]
+
+# TASK [Install MySQL dependencies python, for ansible to connect to mysql we need them.] **********************************************
+# ok: [backend.mydevops-learning.cloud]
+
+# TASK [Import data backend.sql into mysql] ********************************************************************************************
+# changed: [backend.mydevops-learning.cloud]
+
+# TASK [Deamon Reload] *****************************************************************************************************************
+# ok: [backend.mydevops-learning.cloud]
+
+# TASK [Start and Enable backend service] **********************************************************************************************
+# changed: [backend.mydevops-learning.cloud]
