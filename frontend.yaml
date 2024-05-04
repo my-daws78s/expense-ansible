@@ -1,0 +1,40 @@
+# dnf install nginx -y 
+# systemctl enable nginx
+# systemctl start nginx
+# rm -rf /usr/share/nginx/html/*
+# curl -o /tmp/frontend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip
+# cd /usr/share/nginx/html
+# unzip /tmp/frontend.zip
+# vim /etc/nginx/default.d/expense.conf
+# systemctl restart nginx
+
+- name: Configuring Frontend server
+  hosts: frontend
+  become: yes
+  tasks:
+  - name: Install nginx
+    ansible.builtin.dnf:
+      name: nginx
+      state: latest
+      enabled:  yes
+  - name: Delete directory html
+    ansible.builtin.file:
+      path: /usr/share/nginx/html
+      state: absent
+  - name: Create directory html
+    ansible.builtin.file:
+      path: /usr/share/nginx/html
+      state: directory
+  - name: Download and Unzip file
+    ansible.builtin.unarchive:
+      src: https://expense-builds.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip
+      dest: /usr/share/nginx/html
+      remote_src: yes
+  - name: Copy the expense.conf
+    ansible.builtin.copy:
+      src:  expense.conf
+      dest: /etc/nginx/default.d/expense.conf
+  - name: Restart nginx
+    ansible.builtin.dnf:
+      name: nginx
+      state: restarted

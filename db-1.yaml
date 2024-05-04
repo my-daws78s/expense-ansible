@@ -7,7 +7,7 @@
 # mysql_secure_installation --set-root-pass ExpenseApp@1
 
 - name: Configuring DB Server
-  hosts: localhost
+  hosts: db
   become: yes
   vars_prompt:  # This has to stay at PLAY level only, inside TASK level did not work.
   - name: mysql_root_password
@@ -40,6 +40,7 @@
     community.mysql.mysql_info:
       login_user: root
       login_password: "{{mysql_root_password}}"
+      login_host: db.mydevops-learning.cloud
       filter: version
     ignore_errors:  yes
     register: mysql_output
@@ -60,5 +61,17 @@
     ansible.builtin.command:  "mysql_secure_installation --set-root-pass {{mysql_root_password}}"
     when: mysql_output.failed is true # don't give {{ }} in when condition
 
-#sudo yum remove mysql mysql-server
-# I am facing issue instead of skipping at line 
+#sudo yum remove mysql mysql-server --> u can uninstall and retry the playbook on the instance..
+# I am facing issue: instead of mysql_output.failed=false in second run, its still coming true and thus shows as failed.. even using db-siva.yaml facing same issue, maybe I need to try using proper inventory.ini entry and retry this...
+
+# TASK [check if mysql root password is already setup or not] **************************************************************************
+# fatal: [localhost]: FAILED! => {"changed": false, "msg": "unable to connect to database using pymysql 1.1.0, check login_user and login_password are correct or /root/.my.cnf has the credentials. Exception message: (1045, \"Access denied for user 'root'@'localhost' (using password: YES)\")"}
+# ...ignoring
+
+# TASK [print mysql_output] ************************************************************************************************************
+# ok: [localhost] => {
+#     "msg": "MySQL Register Output is: {'failed': True, 'msg': 'unable to connect to database using pymysql 1.1.0, check login_user and login_password are correct or /root/.my.cnf has the credentials. Exception message: (1045, \"Access denied for user \\'root\\'@\\'localhost\\' (using password: YES)\")', 'changed': False}"
+# }
+
+# TASK [setup root password now] *******************************************************************************************************
+# fatal: [localhost]: FAILED! => {"changed": true, "cmd": ["mysql_secure_installation", "--set-root-pass", "ExpenseApp@1"], "delta": "0:00:00.011477", "end": "2024-05-03 14:58:56.343316", "msg": "non-zero return code", "rc": 1, "start": "2024-05-03 14:58:56.331839", "stderr": "", "stderr_lines": [], "stdout": "Password already set, You cannot reset the password with mysql_secure_installation", "stdout_lines": ["Password already set, You cannot reset the password with mysql_secure_installation"]}
