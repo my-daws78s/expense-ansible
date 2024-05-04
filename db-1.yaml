@@ -75,3 +75,70 @@
 
 # TASK [setup root password now] *******************************************************************************************************
 # fatal: [localhost]: FAILED! => {"changed": true, "cmd": ["mysql_secure_installation", "--set-root-pass", "ExpenseApp@1"], "delta": "0:00:00.011477", "end": "2024-05-03 14:58:56.343316", "msg": "non-zero return code", "rc": 1, "start": "2024-05-03 14:58:56.331839", "stderr": "", "stderr_lines": [], "stdout": "Password already set, You cannot reset the password with mysql_secure_installation", "stdout_lines": ["Password already set, You cannot reset the password with mysql_secure_installation"]}
+
+
+#/////////////////////////////////////////////////
+#Today I set this up inside inevntory.ini and properly works:
+#ansible-playbook -i inventory.ini -e ansible_user=ec2-user -e ansible_password=DevOps321 db-1.yaml
+
+#first run://///////////////////////
+
+# [ ec2-user@ip-172-31-26-59 ~/expense-ansible ]$ ansible-playbook -i inventory.ini -e ansible_user=ec2-user -e ansible_password=DevOps321 db-1.yaml
+# Enter MySql Password of your choice: ExpenseApp@1
+
+# PLAY [Configuring DB Server] *********************************************************************************************************
+
+# TASK [Gathering Facts] ***************************************************************************************************************
+# ok: [db.mydevops-learning.cloud]
+
+# TASK [Install MySQL Server 8.0.x] ****************************************************************************************************
+# changed: [db.mydevops-learning.cloud]
+
+# TASK [Start and Enable MySql service] ************************************************************************************************
+# changed: [db.mydevops-learning.cloud]
+
+# TASK [Install Python dependencies for mysql (PyMySQL)] *******************************************************************************
+# changed: [db.mydevops-learning.cloud]
+
+# TASK [check if mysql root password is already setup or not] **************************************************************************
+# fatal: [db.mydevops-learning.cloud]: FAILED! => {"changed": false, "msg": "unable to connect to database using pymysql 1.1.0, check login_user and login_password are correct or /root/.my.cnf has the credentials. Exception message: (1130, \"ip-172-31-29-161.ec2.internal' is not allowed to connect to this MySQL server\")"}
+# ...ignoring
+
+# TASK [print mysql_output] ************************************************************************************************************
+# ok: [db.mydevops-learning.cloud] => {
+#     "msg": "MySQL Register Output is: {'failed': True, 'msg': 'unable to connect to database using pymysql 1.1.0, check login_user and login_password are correct or /root/.my.cnf has the credentials. Exception message: (1130, \"ip-172-31-29-161.ec2.internal\\' is not allowed to connect to this MySQL server\")', 'changed': False}"
+# }
+
+# TASK [setup root password now] *******************************************************************************************************
+# changed: [db.mydevops-learning.cloud]
+
+# Second run://///////////////////////
+
+# [ ec2-user@ip-172-31-26-59 ~/expense-ansible ]$ ansible-playbook -i inventory.ini -e ansible_user=ec2-user -e ansible_password=DevOps321 db-1.yaml
+# Enter MySql Password of your choice: ExpenseApp@1
+
+# PLAY [Configuring DB Server] *********************************************************************************************************
+
+# TASK [Gathering Facts] ***************************************************************************************************************
+# ok: [db.mydevops-learning.cloud]
+
+# TASK [Install MySQL Server 8.0.x] ****************************************************************************************************
+# ok: [db.mydevops-learning.cloud]
+
+# TASK [Start and Enable MySql service] ************************************************************************************************
+# ok: [db.mydevops-learning.cloud]
+
+# TASK [Install Python dependencies for mysql (PyMySQL)] *******************************************************************************
+# ok: [db.mydevops-learning.cloud]
+
+# TASK [check if mysql root password is already setup or not] **************************************************************************
+# ok: [db.mydevops-learning.cloud]
+
+# TASK [print mysql_output] ************************************************************************************************************
+# ok: [db.mydevops-learning.cloud] => {
+#     "msg": "MySQL Register Output is: {'changed': False, 'connector_name': 'pymysql', 'connector_version': '1.1.0', 'version': {'major': 8, 'minor': 0, 'release': 36, 'suffix': '', 'full': '8.0.36'}, 'failed': False}"
+# }
+
+# TASK [setup root password now] *******************************************************************************************************
+# skipping: [db.mydevops-learning.cloud]
+
