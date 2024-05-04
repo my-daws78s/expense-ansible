@@ -42,3 +42,33 @@
     ansible.builtin.service:
       name: nginx
       state: restarted
+
+# Output:
+
+# [ ec2-user@ip-172-31-26-59 ~/expense-ansible ]$ ansible-playbook -i inventory.ini -e ansible_user=ec2-user -e ansible_password=DevOps321 frontend.yaml
+
+# PLAY [Configuring Frontend server] ***************************************************************************************************
+
+# TASK [Gathering Facts] ***************************************************************************************************************
+# ok: [mydevops-learning.cloud]
+
+# TASK [Install nginx] *****************************************************************************************************************
+# ok: [mydevops-learning.cloud]
+
+# TASK [Start and Enable nginx] ********************************************************************************************************
+# ok: [mydevops-learning.cloud]
+
+# TASK [Delete directory html] *********************************************************************************************************
+# changed: [mydevops-learning.cloud]
+
+# TASK [Create directory html] *********************************************************************************************************
+# changed: [mydevops-learning.cloud]
+
+# TASK [Download and Unzip file] *******************************************************************************************************
+# changed: [mydevops-learning.cloud]
+
+# TASK [Copy the expense.conf] *********************************************************************************************************
+# ok: [mydevops-learning.cloud]
+
+# TASK [Restart nginx] *****************************************************************************************************************
+# changed: [mydevops-learning.cloud]
